@@ -3,7 +3,7 @@ import pygame as py
 from scripts.utility import gen_background
 
 py.init()
-#player img source: https://github.com/joaofranciscoguarda/arch-pixel-icons?tab=readme-ov-file
+#player img source: 
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1400, 850
 screen = py.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -13,7 +13,7 @@ player_rect = player_img.get_frect(center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT //
 stars = gen_background(500, SCREEN_WIDTH, SCREEN_HEIGHT)
 #player_pos = py.Vector2(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
-can_shoot = True
+#can_shoot = True
 dt = 0
 clock = py.time.Clock()
 
@@ -41,8 +41,9 @@ while True:
             player_rect.x += 500 * dt
             #player_pos.x += 500 * dt
     key = py.key.get_just_pressed()
-    if key[py.K_SPACE] and can_shoot:
-        can_shoot = False
+    #if key[py.K_SPACE] and can_shoot:
+    if key[py.K_SPACE]:
+        #can_shoot = False
         print("works")
 
     screen.blit(player_img, player_rect.topleft)
@@ -52,3 +53,9 @@ while True:
             sys.exit()
     dt = clock.tick(60) / 1000
     py.display.flip()
+
+'''
+Resources
+pygame-ce: https://pyga.me/docs/
+Player image https://github.com/joaofranciscoguarda/arch-pixel-icons?tab=readme-ov-file
+'''
