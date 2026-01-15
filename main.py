@@ -30,7 +30,7 @@ while True:
     keys = py.key.get_pressed()
     if keys[py.K_w] or keys[py.K_UP]: 
         if player_rect.y > 0:
-            if keys[py.K_d] or keys[py.K_a]:
+            if keys[py.K_d] or keys[py.K_a] or keys[py.K_LEFT] or keys[py.K_RIGHT]:
                 player_rect.y -= 250 * dt
             else:
                 player_rect.y -= 500 * dt
@@ -38,7 +38,7 @@ while True:
 
     if keys[py.K_s] or keys[py.K_DOWN]:
         if player_rect.bottom < SCREEN_HEIGHT:
-            if keys[py.K_d] or keys[py.K_a]:
+            if keys[py.K_d] or keys[py.K_a] or keys[py.K_LEFT] or keys[py.K_RIGHT]:
                 player_rect.y += 250 * dt
             else:
                 player_rect.y += 500 * dt
@@ -46,15 +46,15 @@ while True:
 
     if keys[py.K_a] or keys[py.K_LEFT]:
         if player_rect.left > 0:
-            if keys[py.K_w] or keys[py.K_s]:
-                player_rect.x -= 250 * dt
+            if keys[py.K_w] or keys[py.K_s] or keys[py.K_UP] or keys[py.K_DOWN]:
+                player_rect.x -= 400 * dt
             else:
                 player_rect.x -= 500 * dt
 
     if keys[py.K_d] or keys[py.K_RIGHT]:
         if player_rect.right < SCREEN_WIDTH:
-            if keys[py.K_w] or keys[py.K_s]:
-                player_rect.x += 250 * dt
+            if keys[py.K_w] or keys[py.K_s] or keys[py.K_UP] or keys[py.K_DOWN]:
+                player_rect.x += 400 * dt
             else:
                 player_rect.x += 500 * dt
 
