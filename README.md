@@ -1,2 +1,2 @@
 # Todo next
-Create a projectile for the player
+Create windows in oppisition to the player
