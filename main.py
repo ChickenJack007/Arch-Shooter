@@ -10,7 +10,7 @@ screen = py.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 player_img = py.image.load("./arch-linux-normal-56.png").convert()
 player_rect = player_img.get_frect(center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
 stars = gen_background(500, SCREEN_WIDTH, SCREEN_HEIGHT)
-laser = py.FRect((0, -50), (50, 20)) 
+laser = py.FRect((0, -50), (50, 25)) 
 
 can_shoot = True
 dt = 0
@@ -23,9 +23,10 @@ while True:
 
     if laser.bottom > 0: 
         py.draw.line(screen, "red", laser.midbottom, laser.midtop, 3)
-        laser.y -= 700 * dt
+        laser.y -= 900 * dt
     else:
-        can_shoot = True
+        if can_shoot == False:
+            can_shoot = True
 
     keys = py.key.get_pressed()
     if keys[py.K_w] or keys[py.K_UP]: 
@@ -58,13 +59,13 @@ while True:
             else:
                 player_rect.x += 500 * dt
 
-
-    key = py.key.get_just_pressed()
-    if key[py.K_SPACE] and can_shoot:
+    if (keys[py.K_SPACE] or keys[py.K_z]) and can_shoot:
         can_shoot = False
         laser.midtop = player_rect.midtop
 
     screen.blit(player_img, player_rect.topleft)
+
+
     for event in py.event.get():
         if event.type == py.QUIT:
             py.quit()
