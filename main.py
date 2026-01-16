@@ -12,6 +12,9 @@ player_img = py.image.load("./player.png").convert()
 player_rect = player_img.get_frect(center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
 stars = gen_background(500, SCREEN_WIDTH, SCREEN_HEIGHT)
 laser = py.FRect((0, -50), (50, 25)) 
+level = 0
+enemy_amount = [1, 2, 3, 5, 7, 10, 15]
+active_enemys = 0
 
 can_shoot = True
 dt = 0
@@ -71,10 +74,14 @@ while True:
 
     for event in py.event.get():
         if event.type == py.QUIT:
+            print()
             py.quit()
             sys.exit()
+
         if event.type == enemy_timer:
-            spawn_enemy(SCREEN_WIDTH, SCREEN_HEIGHT)
+            spawn_enemy(SCREEN_WIDTH, SCREEN_HEIGHT, 1, screen)
+            print('timer update')
+
     dt = clock.tick(60) / 1000
     py.display.flip()
 
