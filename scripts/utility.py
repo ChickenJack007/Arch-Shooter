@@ -14,3 +14,4 @@ def spawn_enemy(SCREEN_WIDTH, SCREEN_HEIGHT, x, screen):
         return screen.blit(enemy_img, (500, 500))
         enemy_img.append(enemy_img)
 
+

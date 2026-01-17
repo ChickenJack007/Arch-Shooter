@@ -1,12 +1,15 @@
 import sys
 import pygame as py
 from scripts.utility import gen_background, spawn_enemy
+from scripts.sprites import Player, Laser
 
 
 py.init()
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1400, 900
 screen = py.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+all_sprites = py.sprite.Group()
+player = Player(all_sprites)
 
 player_img = py.image.load("./player.png").convert()
 player_rect = player_img.get_frect(center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
@@ -23,6 +26,7 @@ clock = py.time.Clock()
 enemy_timer = py.event.custom_type()
 py.time.set_timer(enemy_timer, 700)
 while True:
+    dt = clock.tick() / 1000
     screen.fill('black')
     for i in stars:
         py.draw.circle(screen, "white", i, 1)
@@ -33,50 +37,18 @@ while True:
     else:
         if can_shoot == False:
             can_shoot = True
-
-    keys = py.key.get_pressed()
-    if keys[py.K_w] or keys[py.K_UP]: 
-        if player_rect.y > 0:
-            if keys[py.K_d] or keys[py.K_a] or keys[py.K_LEFT] or keys[py.K_RIGHT]:
-                player_rect.y -= 250 * dt
-            else:
-                player_rect.y -= 500 * dt
-    if keys[py.K_s] or keys[py.K_DOWN]:
-        if player_rect.bottom < SCREEN_HEIGHT:
-            if keys[py.K_d] or keys[py.K_a] or keys[py.K_LEFT] or keys[py.K_RIGHT]:
-                player_rect.y += 250 * dt
-            else:
-                player_rect.y += 500 * dt
-    if keys[py.K_a] or keys[py.K_LEFT]:
-        if player_rect.left > 0:
-            if keys[py.K_w] or keys[py.K_s] or keys[py.K_UP] or keys[py.K_DOWN]:
-                player_rect.x -= 400 * dt
-            else:
-                player_rect.x -= 500 * dt
-    if keys[py.K_d] or keys[py.K_RIGHT]:
-        if player_rect.right < SCREEN_WIDTH:
-            if keys[py.K_w] or keys[py.K_s] or keys[py.K_UP] or keys[py.K_DOWN]:
-                player_rect.x += 400 * dt
-            else:
-                player_rect.x += 500 * dt
-    if (keys[py.K_SPACE] or keys[py.K_z]) and can_shoot:
-        can_shoot = False
-        laser.midtop = player_rect.midtop
-
-    screen.blit(player_img, player_rect.topleft)
-
+    all_sprites.update(dt)
     for event in py.event.get():
         if event.type == py.QUIT:
-            print()
             py.quit()
             sys.exit()
 
         if event.type == enemy_timer:
-            spawn_enemy(SCREEN_WIDTH, SCREEN_HEIGHT, 1, screen)
-            print('timer update')
+            #spawn_enemy(SCREEN_WIDTH, SCREEN_HEIGHT, 1, screen)
+            pass
 
-    dt = clock.tick(60) / 1000
-    py.display.flip()
+    all_sprites.draw(screen)
+    py.display.update()
 
 '''
 Resources
