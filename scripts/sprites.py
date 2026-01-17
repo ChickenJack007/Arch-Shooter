@@ -1,11 +1,15 @@
 import pygame as py
+
+
 class Player(py.sprite.Sprite):
-    def __init__(self, groups):
+    def __init__(self, groups, surf):
         super().__init__(groups)
         self.image = py.image.load("./player.png").convert()
+        self.surf = surf
         self.width, self.height = py.display.get_window_size()
         self.rect = self.image.get_frect(center = (self.width // 2, self.height // 2))
         self.can_shoot = True
+        self.laser_rect = py.FRect((0, -40), (20, 25))
 
     def update(self, dt):
 
@@ -36,16 +40,19 @@ class Player(py.sprite.Sprite):
                 else:
                     self.rect.x += 500 * dt
         if (keys[py.K_SPACE] or keys[py.K_z]) and self.can_shoot:
+            self.fire_laser()
             #Laser(self.rect.midtop, all_sprites)
             self.can_shoot = False
+        Player.update_laser(self, dt)
 
+    def update_laser(self, dt):
+        if self.laser_rect.bottom > 0:
+            self.laser_rect.y -= 900 * dt
+            py.draw.line(self.surf, 'red', self.laser_rect.midbottom, self.laser_rect.midtop, 3)
+        else:
+            if not self.can_shoot:
+                self.can_shoot = True
 
-class Laser(py.sprite.Sprite):
-    def __init__(self, pos, groups):
-        super().__init__(groups)
-        self.image = py.image.load("./laser.png").convert()
-        self.rect = self.image.get_frect()
+    def fire_laser(self):
+        self.laser_rect.midbottom = self.rect.midtop
 
-    def update(self, dt):
-        if self.rect.bottom > 0:
-            self.rect.y -= 900 * dt
