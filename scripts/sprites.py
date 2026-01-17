@@ -35,9 +35,9 @@ class Player(py.sprite.Sprite):
                     self.rect.x += 400 * dt
                 else:
                     self.rect.x += 500 * dt
-        if keys[py.K_SPACE] or keys[py.K_z]:
-            Laser(self.rect.midtop, all_sprites)
-
+        if (keys[py.K_SPACE] or keys[py.K_z]) and self.can_shoot:
+            #Laser(self.rect.midtop, all_sprites)
+            self.can_shoot = False
 
 
 class Laser(py.sprite.Sprite):
@@ -47,6 +47,5 @@ class Laser(py.sprite.Sprite):
         self.rect = self.image.get_frect()
 
     def update(self, dt):
-        self.rect.y -= 900 * dt
-        if self.rect.bottom < 0:
-            self.kill()
+        if self.rect.bottom > 0:
+            self.rect.y -= 900 * dt
