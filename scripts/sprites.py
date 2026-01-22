@@ -1,5 +1,5 @@
 import pygame as py
-from scripts.utility import load_img
+from scripts.utility import load_img, gen_player_img
 
 class Player(py.sprite.Sprite):
     def __init__(self, groups):
@@ -54,7 +54,8 @@ class Laser(py.sprite.Sprite):
 
 
 class Enemy(py.sprite.Sprite):
-    def __init(self, groups):
+    def __init__(self, groups):
         super().__init__(groups)
+        self.image = load_img(gen_player_img())
         #self.image = pass
         #self.rect = pass
