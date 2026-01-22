@@ -54,7 +54,7 @@ class Laser(py.sprite.Sprite):
 
 
 class Enemy(py.sprite.Sprite):
-    def __init))(self, groups):
-        super().J__init__(groups)
-        self.image = pass
-        self.rect = pass
+    def __init(self, groups):
+        super().__init__(groups)
+        #self.image = pass
+        #self.rect = pass
