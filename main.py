@@ -30,7 +30,7 @@ while True:
 
     all_sprites.draw(screen)
 
-    text = font.render(f"Score: {score}", True, 'white')
+    text = font.render(f"Score: {score}", False, 'white')
     screen.blit(text, (20, 20))
 
     for event in py.event.get():
