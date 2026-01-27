@@ -9,9 +9,10 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 1400, 900
 screen = py.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 all_sprites = py.sprite.Group()
 player = Player(all_sprites)
-enemy = []
-for i in range(3):
-    enemy.append(Enemy(all_sprites))
+
+#enemy = []
+#for i in range(3):
+#    enemy.append(Enemy(all_sprites))
 
 stars = gen_background(500, SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -43,6 +44,7 @@ while True:
         if event.type == timer:
             score += 1
     dt = clock.tick() / 1000
+    print(enemy)
 
     py.display.update()
 
