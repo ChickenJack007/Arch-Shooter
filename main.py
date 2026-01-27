@@ -21,7 +21,7 @@ can_shoot = True
 dt = 0
 clock = py.time.Clock()
 score = 0
-timer = 1000
+timer = 2000
 
 font = py.font.SysFont(None, 32)
 
@@ -38,8 +38,10 @@ while True:
     player_sprites.draw(screen)
     enemy_sprites.draw(screen)
 
-    if py.sprite.groupcollide(player_sprites, enemy_sprites, False, True):
+    if py.sprite.groupcollide(player_sprites, enemy_sprites, True, True):
         score += 1
+    if not (player in player_sprites):
+        print('test')
 
     text = font.render(f"Score: {score}", False, 'white')
     screen.blit(text, (20, 20))
@@ -50,7 +52,7 @@ while True:
             sys.exit()
         if event.type == spawn_timer:
             Enemy(enemy_sprites)
-            timer += 1
+            timer -= 50
 
     dt = clock.tick() / 1000
 
