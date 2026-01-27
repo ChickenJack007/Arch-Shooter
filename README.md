@@ -1,2 +1,2 @@
 # Todo next
-Create windows in oppisition to the player
+Make the game run smoother
