@@ -24,7 +24,7 @@ score = 0
 font = py.font.SysFont(None, 32)
 
 timer = py.event.custom_type()
-py.time.set_timer(timer, 1000)
+py.time.set_timer(timer, 2000)
 while True:
     screen.fill('black')
     for i in stars:
@@ -43,8 +43,8 @@ while True:
             sys.exit()
         if event.type == timer:
             score += 1
+            Enemy(all_sprites)
     dt = clock.tick() / 1000
-    print(enemy)
 
     py.display.update()
 
