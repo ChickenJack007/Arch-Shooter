@@ -41,7 +41,7 @@ class Player(py.sprite.Sprite):
         key = py.key.get_just_pressed()
         if (key[py.K_SPACE] or key[py.K_z]): 
             Laser(self.rect.midtop, self.group)
-            Enemy(self.group)
+            #Enemy(self.group)
 
 class Laser(py.sprite.Sprite):
     def __init__(self, pos, groups):
@@ -59,7 +59,7 @@ class Enemy(py.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
         self.width, self.height = py.display.get_window_size()
-        self.direction = py.Vector2((rand.randint(0, 400), rand.randint(0, 400)))
+        self.direction = py.Vector2((rand.randint(-400, 400), rand.randint(50, 200)))
         self.image = load_img(gen_player_img())
         self.rect = self.image.get_frect(midbottom = (500,0))
     def update(self, dt):
@@ -69,3 +69,5 @@ class Enemy(py.sprite.Sprite):
         else:
             print('dead')
             self.kill()
+        if (self.rect.right >= self.width) or (self.rect.left <= 0):
+            self.direction.x *= -1
