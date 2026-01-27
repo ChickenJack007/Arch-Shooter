@@ -1,5 +1,6 @@
 import pygame as py
 from scripts.utility import load_img, gen_player_img
+import random as rand
 
 class Player(py.sprite.Sprite):
     def __init__(self, groups):
@@ -40,6 +41,7 @@ class Player(py.sprite.Sprite):
         key = py.key.get_just_pressed()
         if (key[py.K_SPACE] or key[py.K_z]): 
             Laser(self.rect.midtop, self.group)
+            Enemy(self.group)
 
 class Laser(py.sprite.Sprite):
     def __init__(self, pos, groups):
@@ -56,6 +58,14 @@ class Laser(py.sprite.Sprite):
 class Enemy(py.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
+        self.width, self.height = py.display.get_window_size()
+        self.direction = py.Vector2((rand.randint(0, 400), rand.randint(0, 400)))
         self.image = load_img(gen_player_img())
-        #self.image = pass
-        #self.rect = pass
+        self.rect = self.image.get_frect(midbottom = (500,0))
+    def update(self, dt):
+        if self.rect.top < self.height:
+            #self.rect.y += 500 * dt
+            self.rect.center += self.direction * dt
+        else:
+            print('dead')
+            self.kill()

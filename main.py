@@ -1,7 +1,7 @@
 import sys
 import pygame as py
 from scripts.utility import gen_background
-from scripts.sprites import Player
+from scripts.sprites import Player, Enemy
 
 py.init()
 
@@ -9,6 +9,7 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 1400, 900
 screen = py.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 all_sprites = py.sprite.Group()
 player = Player(all_sprites)
+#enemy = Enemy(all_sprites)
 
 stars = gen_background(500, SCREEN_WIDTH, SCREEN_HEIGHT)
 
