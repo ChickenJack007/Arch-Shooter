@@ -58,10 +58,13 @@ class Laser(py.sprite.Sprite):
 class Enemy(py.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
+        self.group = groups
         self.width, self.height = py.display.get_window_size()
-        self.direction = py.Vector2((rand.randint(-400, 400), rand.randint(50, 200)))
+        self.direction = py.Vector2((rand.randint(-300, 300), rand.randint(75, 175)))
         self.image = load_img(gen_player_img())
         self.rect = self.image.get_frect(midbottom = (500,0))
+
+
     def update(self, dt):
         if self.rect.top < self.height:
             #self.rect.y += 500 * dt

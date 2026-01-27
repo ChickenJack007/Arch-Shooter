@@ -7,8 +7,9 @@ py.init()
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1400, 900
 screen = py.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-all_sprites = py.sprite.Group()
-player = Player(all_sprites)
+player_sprites = py.sprite.Group()
+enemy_sprites = py.sprite.Group()
+player = Player(player_sprites)
 
 #enemy = []
 #for i in range(3):
@@ -20,19 +21,25 @@ can_shoot = True
 dt = 0
 clock = py.time.Clock()
 score = 0
+timer = 1000
 
 font = py.font.SysFont(None, 32)
 
-timer = py.event.custom_type()
-py.time.set_timer(timer, 2000)
+spawn_timer = py.event.custom_type()
+py.time.set_timer(spawn_timer, timer)
 while True:
     screen.fill('black')
     for i in stars:
         py.draw.circle(screen, "white", i, 1)
 
-    all_sprites.update(dt)
+    player_sprites.update(dt)
+    enemy_sprites.update(dt)
 
-    all_sprites.draw(screen)
+    player_sprites.draw(screen)
+    enemy_sprites.draw(screen)
+
+    if py.sprite.groupcollide(player_sprites, enemy_sprites, False, True):
+        score += 1
 
     text = font.render(f"Score: {score}", False, 'white')
     screen.blit(text, (20, 20))
@@ -41,9 +48,10 @@ while True:
         if event.type == py.QUIT:
             py.quit()
             sys.exit()
-        if event.type == timer:
-            score += 1
-            Enemy(all_sprites)
+        if event.type == spawn_timer:
+            Enemy(enemy_sprites)
+            timer += 1
+
     dt = clock.tick() / 1000
 
     py.display.update()
