@@ -1,6 +1,6 @@
 import sys
 import pygame as py
-from scripts.utility import gen_background
+from scripts.utility import gen_background, game_start
 from scripts.sprites import Player, Enemy
 
 py.init()
@@ -22,22 +22,10 @@ dt = 0
 clock = py.time.Clock()
 score = 0
 timer = 2000
-startup = True
 
 font = py.font.SysFont(None, 32)
-while startup:
-    screen.fill('black')
-    text = font.render('Press space to start', False, 'white')
-    screen.blit(text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2))
-    keys = py.key.get_pressed()
-    if keys[py.K_SPACE]:
-        startup = False
-    for event in py.event.get():
-        if event.type == py.QUIT:
-            py.quit()
-            sys.exit()
-    py.display.update()
 
+game_start(screen)
 spawn_timer = py.event.custom_type()
 py.time.set_timer(spawn_timer, timer)
 while True:
