@@ -14,6 +14,4 @@ def gen_player_img():
     return f'enemy{rand.randint(1, 8)}'
 
 def game_over():
-    font = py.font.SysFont(None, 70)
-    text = font.render('Game Over')
-    return text
+    pass

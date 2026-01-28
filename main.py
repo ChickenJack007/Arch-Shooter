@@ -22,48 +22,55 @@ dt = 0
 clock = py.time.Clock()
 score = 0
 timer = 2000
-running = True
+startup = True
 
 font = py.font.SysFont(None, 32)
+while startup:
+    screen.fill('black')
+    text = font.render('Press space to start', False, 'white')
+    screen.blit(text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2))
+    keys = py.key.get_pressed()
+    if keys[py.K_SPACE]:
+        startup = False
+    for event in py.event.get():
+        if event.type == py.QUIT:
+            py.quit()
+            sys.exit()
+    py.display.update()
 
 spawn_timer = py.event.custom_type()
 py.time.set_timer(spawn_timer, timer)
 while True:
-    while running:
-        screen.fill('black')
-        for i in stars:
-            py.draw.circle(screen, "white", i, 1)
-
-        player_sprites.update(dt)
-        enemy_sprites.update(dt)
-
-        player_sprites.draw(screen)
-        enemy_sprites.draw(screen)
-
-        if py.sprite.spritecollideany(player, enemy_sprites):
-            player_sprites.remove(player)
-            running = False
-
-        if py.sprite.groupcollide(player_sprites, enemy_sprites, True, True):
-            score += 1
-
-        text = font.render(f"Score: {score}", False, 'white')
-        screen.blit(text, (20, 20))
-
-        for event in py.event.get():
-            if event.type == py.QUIT:
-                py.quit()
-                sys.exit()
-            if event.type == spawn_timer:
-                Enemy(enemy_sprites)
-                timer -= 50
-
-        dt = clock.tick() / 1000
-
-        py.display.update()
-
     screen.fill('black')
-    
+    for i in stars:
+        py.draw.circle(screen, "white", i, 1)
+
+    player_sprites.update(dt)
+    enemy_sprites.update(dt)
+
+    player_sprites.draw(screen)
+    enemy_sprites.draw(screen)
+
+    if py.sprite.spritecollideany(player, enemy_sprites):
+        player_sprites.remove(player)
+
+    if py.sprite.groupcollide(player_sprites, enemy_sprites, True, True):
+        score += 1
+
+    text = font.render(f"Score: {score}", False, 'white')
+    screen.blit(text, (20, 20))
+
+    for event in py.event.get():
+        if event.type == py.QUIT:
+            py.quit()
+            sys.exit()
+        if event.type == spawn_timer:
+            Enemy(enemy_sprites)
+            timer -= 50
+
+    dt = clock.tick() / 1000
+
+    py.display.update()
 
 '''
 Resources
