@@ -62,7 +62,7 @@ class Enemy(py.sprite.Sprite):
         self.width, self.height = py.display.get_window_size()
         self.direction = py.Vector2((rand.randint(-300, 300), rand.randint(75, 175)))
         self.image = load_img(gen_player_img())
-        self.rect = self.image.get_frect(midbottom = (500,0))
+        self.rect = self.image.get_frect(midbottom = (rand.randint(0, self.width),0))
 
 
     def update(self, dt):
@@ -70,7 +70,7 @@ class Enemy(py.sprite.Sprite):
             #self.rect.y += 500 * dt
             self.rect.center += self.direction * dt
         else:
-            print('dead')
+            print('enemy passed bottom')
             self.kill()
         if (self.rect.right >= self.width) or (self.rect.left <= 0):
             self.direction.x *= -1

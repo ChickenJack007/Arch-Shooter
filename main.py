@@ -38,10 +38,11 @@ while True:
     player_sprites.draw(screen)
     enemy_sprites.draw(screen)
 
+    if py.sprite.spritecollideany(player, enemy_sprites):
+        player_sprites.remove(player)
+
     if py.sprite.groupcollide(player_sprites, enemy_sprites, True, True):
         score += 1
-    if not (player in player_sprites):
-        print('test')
 
     text = font.render(f"Score: {score}", False, 'white')
     screen.blit(text, (20, 20))
