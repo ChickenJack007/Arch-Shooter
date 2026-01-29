@@ -32,6 +32,7 @@ def game(screen):
     
         if py.sprite.spritecollideany(player, enemy_sprites):
             player_sprites.remove(player)
+            break
     
         if py.sprite.groupcollide(player_sprites, enemy_sprites, True, True):
             score += 1
@@ -69,4 +70,18 @@ def game_start(screen):
         py.display.update()
 
 def game_over(screen):
-    print(score)
+    running = True
+    font = py.font.SysFont(None, 50)
+    width, height = py.display.get_window_size()
+
+    while running:
+        screen.fill('black')
+        text = font.render(f'Game Over\n  Score: {score}', False, 'white')
+        screen.blit(text, (width // 2 - 100, height // 2 - 50))
+        for event in py.event.get():
+            if event.type == py.QUIT:
+                py.quit()
+                sys.exit()
+        py.display.update()
+
+
