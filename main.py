@@ -3,18 +3,16 @@ import pygame as py
 from scripts.screen import game, game_start, game_over
 
 py.init()
+running = True
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1400, 900
 screen = py.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-#enemy = []
-#for i in range(3):
-#    enemy.append(Enemy(all_sprites))
 
-
-game_start(screen)
-game(screen)
-game_over(screen)
+while running:
+    game_start(screen)
+    game(screen)
+    running = game_over(screen)
 
 
 '''

@@ -53,14 +53,16 @@ def game(screen):
         py.display.update()
 
 def game_start(screen):
+    clock = py.time.Clock()
     font = py.font.SysFont(None, 50)
     width, height = py.display.get_window_size()
     startup = True
     while startup:
+        clock.tick(60)
         screen.fill('black')
-        text = font.render('Press space to start', False, 'white')
+        text = font.render('Press space to start', True, 'white')
         screen.blit(text, (width // 2 - 150, height // 2))
-        keys = py.key.get_pressed()
+        keys = py.key.get_just_pressed()
         if keys[py.K_SPACE]:
             startup = False
         for event in py.event.get():
@@ -70,14 +72,21 @@ def game_start(screen):
         py.display.update()
 
 def game_over(screen):
+    clock = py.time.Clock()
     running = True
-    font = py.font.SysFont(None, 50)
+    font = py.font.SysFont(None, 70)
     width, height = py.display.get_window_size()
 
     while running:
+        clock.tick(60)
         screen.fill('black')
-        text = font.render(f'Game Over\n  Score: {score}', False, 'white')
-        screen.blit(text, (width // 2 - 100, height // 2 - 50))
+        text = font.render(f'Game Over\n  Score: {score}', True, 'white')
+        screen.blit(text, (width // 2 - 150, 20))
+        text = font.render('Press Space to try again', True, 'white')
+        screen.blit(text, (width //2 - 300, height // 2))
+        keys = py.key.get_just_pressed()
+        if keys[py.K_SPACE]:
+            return True
         for event in py.event.get():
             if event.type == py.QUIT:
                 py.quit()
