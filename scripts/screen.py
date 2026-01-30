@@ -9,6 +9,8 @@ def game(screen):
     player = Player(player_sprites)
 
     dt = 0
+    global loss
+    loss = 0
     clock = py.time.Clock()
     global score
     score = 0
@@ -34,6 +36,8 @@ def game(screen):
             player_sprites.remove(player)
             break
     
+        if loss >= 3:
+            break
         if py.sprite.groupcollide(player_sprites, enemy_sprites, True, True):
             score += 1
     
@@ -82,11 +86,13 @@ def game_over(screen):
         screen.fill('black')
         text = font.render(f'Game Over\n  Score: {score}', True, 'white')
         screen.blit(text, (width // 2 - 150, 20))
-        text = font.render('Press Space to try again', True, 'white')
+        text = font.render('Press Space to try again\n           or q to quit', True, 'white')
         screen.blit(text, (width //2 - 300, height // 2))
         keys = py.key.get_just_pressed()
         if keys[py.K_SPACE]:
             return True
+        if keys[py.K_q]:
+            return False
         for event in py.event.get():
             if event.type == py.QUIT:
                 py.quit()
@@ -94,3 +100,6 @@ def game_over(screen):
         py.display.update()
 
 
+
+def hit_bottom():
+    loss += 1
