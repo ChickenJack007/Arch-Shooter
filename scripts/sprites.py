@@ -13,7 +13,6 @@ class Player(py.sprite.Sprite):
         self.group = groups
 
     def update(self, dt):
-        #input
         keys = py.key.get_pressed()
         if keys[py.K_w] or keys[py.K_UP]:
             if self.rect.y > 0:
@@ -42,7 +41,6 @@ class Player(py.sprite.Sprite):
         key = py.key.get_just_pressed()
         if (key[py.K_SPACE] or key[py.K_z]): 
             Laser(self.rect.midtop, self.group)
-            #Enemy(self.group)
 
 class Laser(py.sprite.Sprite):
     def __init__(self, pos, groups):
