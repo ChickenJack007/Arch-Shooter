@@ -9,13 +9,10 @@ def game(screen):
     player = Player(player_sprites)
 
     dt = 0
-    global loss
-    loss = 0
     clock = py.time.Clock()
     global score
     score = 0
     timer = 1500
-    width, height = py.display.get_window_size()
     stars = gen_background(500, width, height)
     spawn_timer = py.event.custom_type()
     py.time.set_timer(spawn_timer, timer)
@@ -36,8 +33,6 @@ def game(screen):
             player_sprites.remove(player)
             break
     
-        if loss >= 3:
-            break
         if py.sprite.groupcollide(player_sprites, enemy_sprites, True, True):
             score += 1
     
@@ -59,27 +54,48 @@ def game(screen):
 def game_start(screen):
     clock = py.time.Clock()
     font = py.font.SysFont(None, 50)
+    global width, height
     width, height = py.display.get_window_size()
+    avalible = True
     startup = True
     while startup:
         clock.tick(60)
         screen.fill('black')
         text = font.render('Press space to start', True, 'white')
-        screen.blit(text, (width // 2 - 150, height // 2))
+        screen.blit(text, (width // 2 - 150, height // 2 - 200))
+        text = font.render('Press h for help', True, 'white')
+        screen.blit(text, (width // 2 - 120, height // 2))
         keys = py.key.get_just_pressed()
-        if keys[py.K_SPACE]:
+        if (keys[py.K_SPACE] or keys[py.K_z]) and avalible:
             startup = False
+        if keys[py.K_h]:
+            avalible = False
+        if not avalible:
+            avalible = help_screen(screen, font, keys)
         for event in py.event.get():
             if event.type == py.QUIT:
                 py.quit()
                 sys.exit()
         py.display.update()
 
+def help_screen(screen, font, keys):
+    screen.fill('black')
+    text = font.render('Move with WASD or arrow keys\n         Fire with Space or Z', True, 'white')
+    screen.blit(text, (width // 2 - 250, height // 2 - 300))
+    text = font.render('Destroy the Microsoft products \n          Before it\'s too late', True, 'white')
+    screen.blit(text, (width // 2 - 260, height // 2 - 100))
+    text = font.render('Press space to return to the title screen', True, 'white')
+    screen.blit(text, (width // 2 - 320, height // 2 + 300))
+    if keys[py.K_SPACE]:
+        return True
+    else:
+        return False
+
+
 def game_over(screen):
     clock = py.time.Clock()
     running = True
     font = py.font.SysFont(None, 70)
-    width, height = py.display.get_window_size()
 
     while running:
         clock.tick(60)
@@ -98,8 +114,3 @@ def game_over(screen):
                 py.quit()
                 sys.exit()
         py.display.update()
-
-
-
-def hit_bottom():
-    loss += 1
