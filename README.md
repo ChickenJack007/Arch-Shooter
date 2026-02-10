@@ -1,2 +1,2 @@
 # Todo next
-Make the game run smoother
+> Clean up the text/font\
