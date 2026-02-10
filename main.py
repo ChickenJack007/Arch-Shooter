@@ -1,4 +1,3 @@
-import sys
 import pygame as py
 from scripts.screen import game, game_start, game_over
 
