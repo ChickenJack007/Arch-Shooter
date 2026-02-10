@@ -1,2 +1,2 @@
 # Todo next
-> Clean up the text/font\
+> Clean up the text/font
