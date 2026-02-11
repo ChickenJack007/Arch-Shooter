@@ -69,7 +69,7 @@ class Enemy(py.sprite.Sprite):
         self.width, self.height = py.display.get_window_size()
         self.direction = py.Vector2((rand.randint(-300, 300), rand.randint(75, 175)))
         self.image = load_img(gen_player_img())
-        self.rect = self.image.get_frect(midbottom = (rand.randint(0, self.width),0))
+        self.rect = self.image.get_frect(midbottom = (rand.randint(0, self.width), 60))
 
 
     def update(self, dt):
@@ -81,3 +81,15 @@ class Enemy(py.sprite.Sprite):
             self.kill()
         if (self.rect.right >= self.width) or (self.rect.left <= 0):
             self.direction.x *= -1
+            if self.direction.x > 0:
+                self.direction.x += 50 * dt
+            else:
+                self.direction.x -= 50 * dt
+
+            if self.direction.y > 0:
+                self.direction.y += 50 * dt
+            else:
+                self.direction.y -= 50 * dt
+        if self.rect.bottom >= self.height or self.rect.top <= 0:
+            self.direction.y *= -1
+        
