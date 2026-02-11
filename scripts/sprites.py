@@ -11,6 +11,9 @@ class Player(py.sprite.Sprite):
         self.rect = self.image.get_frect(center = (self.width // 2, self.height // 2))
         self.laser_rect = py.FRect((0, -40), (20, 25))
         self.group = groups
+        self.laser_timer = py.event.custom_type()
+        self.can_shoot = True
+        self.time_shot = 0
 
     def update(self, dt):
         keys = py.key.get_pressed()
@@ -38,9 +41,14 @@ class Player(py.sprite.Sprite):
                     self.rect.x += 400 * dt
                 else:
                     self.rect.x += 500 * dt
-        key = py.key.get_just_pressed()
-        if (key[py.K_SPACE] or key[py.K_z]): 
+        if (keys[py.K_SPACE] or keys[py.K_z]) and self.can_shoot: 
             Laser(self.rect.midtop, self.group)
+            self.can_shoot = False
+            self.time_shot = py.time.get_ticks()
+        if not self.can_shoot:
+            if py.time.get_ticks() - self.time_shot >= 700:
+                self.can_shoot = True
+
 
 class Laser(py.sprite.Sprite):
     def __init__(self, pos, groups):

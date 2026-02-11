@@ -13,6 +13,7 @@ def game(screen):
     global score
     score = 0
     timer = 1500
+    lives = 3
     stars = gen_background(500, width, height)
     spawn_timer = py.event.custom_type()
     py.time.set_timer(spawn_timer, timer)
@@ -30,10 +31,13 @@ def game(screen):
         enemy_sprites.draw(screen)
     
         if py.sprite.spritecollideany(player, enemy_sprites):
-            player_sprites.remove(player)
-            break
+            if lives > 0:
+                print(lives)
+                lives -= 1
+            else:
+                break
     
-        if py.sprite.groupcollide(player_sprites, enemy_sprites, True, True):
+        if py.sprite.groupcollide(player_sprites, enemy_sprites, False, True):
             score += 1
     
         text = font.render(f"Score: {score}", False, 'white')
