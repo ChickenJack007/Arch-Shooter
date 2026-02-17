@@ -12,7 +12,7 @@ def game(screen):
     clock = py.time.Clock()
     global score
     score = 0
-    timer = 1500
+    timer = 2000
     lives = 2
     stars = gen_background(500, width, height)
     spawn_timer = py.event.custom_type()
@@ -52,7 +52,8 @@ def game(screen):
                 sys.exit()
             if event.type == spawn_timer:
                 Enemy(enemy_sprites)
-                timer -= 50
+                if timer > 75:
+                    timer -= 75
     
         dt = clock.tick() / 1000
     
