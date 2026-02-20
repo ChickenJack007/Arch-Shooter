@@ -12,6 +12,8 @@ def game(screen):
     clock = py.time.Clock()
     global score
     score = 0
+    global highscore
+    highscore = 0
     timer = 2000
     lives = 2
     stars = gen_background(500, width, height)
@@ -36,6 +38,8 @@ def game(screen):
                 print(lives)
                 lives -= 1
             else:
+                if score > highscore:
+                    highscore = score
                 break
     
         elif py.sprite.groupcollide(player_sprites, enemy_sprites, False, True):
@@ -108,7 +112,7 @@ def game_over(screen):
     while running:
         clock.tick(60)
         screen.fill('black')
-        text = font.render(f'Game Over\n  Score: {score}', True, 'white')
+        text = font.render(f'Game Over\n  Score: {score}\nHighscore: {highscore}', True, 'white')
         screen.blit(text, (width // 2 - 150, 20))
         text = font.render('Press Space to try again\n           or q to quit', True, 'white')
         screen.blit(text, (width //2 - 300, height // 2))

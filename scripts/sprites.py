@@ -1,6 +1,5 @@
 import pygame as py
 from scripts.utility import load_img, gen_player_img
-#from scripts.screen import hit_bottom
 import random as rand
 
 class Player(py.sprite.Sprite):
