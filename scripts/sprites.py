@@ -11,9 +11,11 @@ class Player(py.sprite.Sprite):
         self.rect = self.image.get_frect(center = (self.width // 2, self.height // 2))
         self.laser_rect = py.FRect((0, -40), (20, 25))
         self.group = groups
-        self.laser_timer = py.event.custom_type()
         self.can_shoot = True
         self.time_shot = 0
+        self.shoot_timer = 700
+        self.has_powerup = False
+        self.powerup_time = None
 
     def update(self, dt):
         keys = py.key.get_pressed()
@@ -41,13 +43,31 @@ class Player(py.sprite.Sprite):
                     self.rect.x += 400 * dt
                 else:
                     self.rect.x += 500 * dt
-        if (keys[py.K_SPACE] or keys[py.K_z]) and self.can_shoot: 
+
+        if (keys[py.K_SPACE] or keys[py.K_z]) and self.can_shoot and not self.has_powerup: 
             Laser(self.rect.midtop, self.group)
             self.can_shoot = False
             self.time_shot = py.time.get_ticks()
+        elif (keys[py.K_SPACE] or keys[py.K_z]) and self.can_shoot and self.has_powerup:
+            Laser(self.rect.midleft, self.group)
+            Laser(self.rect.midtop, self.group)
+            Laser(self.rect.midright, self.group)
+            self.can_shoot = False
+            self.time_shot = py.time.get_ticks()
+
+        if self.has_powerup:
+            if py.time.get_ticks() - self.powerup_time >= 5000:
+                self.has_powerup = False
+                self.shoot_timer = 700
+
         if not self.can_shoot:
-            if py.time.get_ticks() - self.time_shot >= 700:
+            if py.time.get_ticks() - self.time_shot >= self.shoot_timer:
                 self.can_shoot = True
+
+    def powerup(self):
+        self.has_powerup = True
+        self.shoot_timer = 400
+        self.powerup_time = py.time.get_ticks()
 
 
 class Laser(py.sprite.Sprite):
@@ -60,6 +80,7 @@ class Laser(py.sprite.Sprite):
         self.rect.centery -= 900 * dt
         if self.rect.bottom < 0:
             self.kill()
+
 
 
 class Enemy(py.sprite.Sprite):
@@ -93,3 +114,16 @@ class Enemy(py.sprite.Sprite):
         if self.rect.bottom >= self.height or self.rect.top <= 0:
             self.direction.y *= -1
         
+
+class Power_up(py.sprite.Sprite):
+    def __init__(self, groups, timer=3):
+        super().__init__(groups)
+        self.width, self.height = py.display.get_window_size()
+        self.image = load_img('power-up')
+        self.rect = self.image.get_frect(center = (rand.randint(40, self.width - 40), rand.randint(40, self.height - 40)))
+        self.timer = timer * 1000
+        self.spawn_time = py.time.get_ticks()
+
+    def update(self):
+        if (py.time.get_ticks() - self.spawn_time)  >= self.timer:
+            self.kill()

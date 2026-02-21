@@ -1,22 +1,26 @@
 import pygame as py
 from scripts.utility import gen_background
-from scripts.sprites import Player, Enemy
+from scripts.sprites import Player, Enemy, Power_up
 import sys
 
 def game(screen):
     player_sprites = py.sprite.Group()
     enemy_sprites = py.sprite.Group()
+    power_ups = py.sprite.Group()
     player = Player(player_sprites)
 
     dt = 0
     clock = py.time.Clock()
     global score
     score = 0
-    timer = 1500
+    enemy_timer = 1500
+    power_up_timer = 10000
     lives = 2
     stars = gen_background(500, width, height)
-    spawn_timer = py.event.custom_type()
-    py.time.set_timer(spawn_timer, timer)
+    power_up_spawn = py.event.custom_type()
+    py.time.set_timer(power_up_spawn, power_up_timer)
+    enemy_spawn_timer = py.event.custom_type()
+    py.time.set_timer(enemy_spawn_timer, enemy_timer)
     
     font = py.font.SysFont(None, 32)
     while True:
@@ -26,9 +30,15 @@ def game(screen):
     
         player_sprites.update(dt)
         enemy_sprites.update(dt)
+        power_ups.update()
     
+        power_ups.draw(screen)
         player_sprites.draw(screen)
         enemy_sprites.draw(screen)
+        
+        if py.sprite.spritecollideany(player, power_ups):
+            py.sprite.groupcollide(player_sprites, power_ups, False, True)  
+            player.powerup()
     
         if py.sprite.spritecollideany(player, enemy_sprites):
             if lives > 0:
@@ -41,18 +51,20 @@ def game(screen):
         elif py.sprite.groupcollide(player_sprites, enemy_sprites, False, True):
             score += 1
     
-        text = font.render(f"Score: {score}", False, 'white')
+        text = font.render(f"Score: {score}", True, 'white')
         screen.blit(text, (20, 20))
-        text = font.render(f"Lives: {lives + 1}", False, 'white')
+        text = font.render(f"Lives: {lives + 1}", True, 'white')
         screen.blit(text, (20, 80))
     
         for event in py.event.get():
             if event.type == py.QUIT:
                 py.quit()
                 sys.exit()
-            if event.type == spawn_timer:
+            if event.type == enemy_spawn_timer:
                 Enemy(enemy_sprites)
-                timer -= 50
+                enemy_timer -= 50
+            if event.type == power_up_spawn:
+                Power_up(power_ups)
     
         dt = clock.tick() / 1000
     
