@@ -1,6 +1,5 @@
 import pygame as py
 from scripts.utility import load_img, gen_player_img
-#from scripts.screen import hit_bottom
 import random as rand
 
 class Player(py.sprite.Sprite):
@@ -95,10 +94,8 @@ class Enemy(py.sprite.Sprite):
 
     def update(self, dt):
         if self.rect.top < self.height:
-            #hit_bottom()
             self.rect.center += self.direction * dt
         else:
-            #loss += 1
             self.kill()
         if (self.rect.right >= self.width) or (self.rect.left <= 0):
             self.direction.x *= -1
