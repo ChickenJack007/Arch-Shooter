@@ -3,7 +3,7 @@ from scripts.utility import gen_background
 from scripts.sprites import Player, Enemy, Power_up
 import sys
 
-def game(screen):
+def game(screen, highscore):
     player_sprites = py.sprite.Group()
     enemy_sprites = py.sprite.Group()
     power_ups = py.sprite.Group()
@@ -46,7 +46,10 @@ def game(screen):
                 print(lives)
                 lives -= 1
             else:
-                break
+                if score > highscore:
+                    return score
+                else:
+                   return highscore
     
         elif py.sprite.groupcollide(player_sprites, enemy_sprites, False, True):
             score += 1
@@ -111,7 +114,7 @@ def help_screen(screen, font, keys):
         return False
 
 
-def game_over(screen):
+def game_over(screen, highscore):
     clock = py.time.Clock()
     running = True
     font = py.font.SysFont(None, 70)
@@ -119,7 +122,7 @@ def game_over(screen):
     while running:
         clock.tick(60)
         screen.fill('black')
-        text = font.render(f'Game Over\n  Score: {score}', True, 'white')
+        text = font.render(f'Game Over\n  Score: {score}\nHighscore: {highscore}', True, 'white')
         screen.blit(text, (width // 2 - 150, 20))
         text = font.render('Press Space to try again\n           or q to quit', True, 'white')
         screen.blit(text, (width //2 - 300, height // 2))

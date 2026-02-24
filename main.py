@@ -6,12 +6,12 @@ running = True
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1400, 900
 screen = py.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+highscore = 0
 
-
+game_start(screen)
 while running:
-    game_start(screen)
-    game(screen)
-    running = game_over(screen)
+    highscore = game(screen, highscore)
+    running = game_over(screen, highscore)
 
 
 '''
