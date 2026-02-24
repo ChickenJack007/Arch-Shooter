@@ -122,9 +122,9 @@ def game_over(screen, highscore):
     while running:
         clock.tick(60)
         screen.fill('black')
-        text = font.render(f'Game Over\n  Score: {score}\nHighscore: {highscore}', True, 'white')
-        screen.blit(text, (width // 2 - 150, 20))
-        text = font.render('Press Space to try again\n           or q to quit', True, 'white')
+        text = font.render(f'Game Over\nHighscore: {highscore}\nScore: {score}', True, 'white')
+        screen.blit(text, (width // 2 - 190, 20))
+        text = font.render('Press Space to try again\n           Or q to quit', True, 'white')
         screen.blit(text, (width //2 - 300, height // 2))
         keys = py.key.get_just_pressed()
         if keys[py.K_SPACE]:
