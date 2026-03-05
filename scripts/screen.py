@@ -21,55 +21,69 @@ def game(screen, highscore):
     py.time.set_timer(power_up_spawn, power_up_timer)
     enemy_spawn_timer = py.event.custom_type()
     py.time.set_timer(enemy_spawn_timer, enemy_timer)
+    help = False
     
-    font = py.font.SysFont(None, 32)
+    font = py.font.SysFont(None, 50)
     while True:
-        screen.fill('black')
-        for i in stars:
-            py.draw.circle(screen, "white", i, 1)
+        if not help:
+            screen.fill('black')
+            for i in stars:
+                py.draw.circle(screen, "white", i, 1)
     
-        player_sprites.update(dt)
-        enemy_sprites.update(dt)
-        power_ups.update()
+            player_sprites.update(dt)
+            enemy_sprites.update(dt)
+            power_ups.update()
     
-        power_ups.draw(screen)
-        player_sprites.draw(screen)
-        enemy_sprites.draw(screen)
-        
-        if py.sprite.spritecollideany(player, power_ups):
-            py.sprite.groupcollide(player_sprites, power_ups, False, True)  
-            player.powerup()
+            power_ups.draw(screen)
+            player_sprites.draw(screen)
+            enemy_sprites.draw(screen)
+            
+            if py.sprite.spritecollideany(player, power_ups):
+                py.sprite.groupcollide(player_sprites, power_ups, False, True)  
+                player.powerup()
     
-        if py.sprite.spritecollideany(player, enemy_sprites):
-            if lives > 0:
-                py.sprite.groupcollide(player_sprites, enemy_sprites, False, True)  
-                print(lives)
-                lives -= 1
-            else:
-                if score > highscore:
-                    return score
+            if py.sprite.spritecollideany(player, enemy_sprites):
+                if lives > 0:
+                    py.sprite.groupcollide(player_sprites, enemy_sprites, False, True)  
+                    print(lives)
+                    lives -= 1
                 else:
-                   return highscore
+                    if score > highscore:
+                        return score
+                    else:
+                       return highscore
     
-        elif py.sprite.groupcollide(player_sprites, enemy_sprites, False, True):
-            score += 1
+            elif py.sprite.groupcollide(player_sprites, enemy_sprites, False, True):
+                score += 1
     
-        text = font.render(f"Score: {score}", True, 'white')
-        screen.blit(text, (20, 20))
-        text = font.render(f"Lives: {lives + 1}", True, 'white')
-        screen.blit(text, (20, 80))
+            text = font.render(f"Score: {score}", True, 'white')
+            screen.blit(text, (20, 20))
+            text = font.render(f"Lives: {lives + 1}", True, 'white')
+            screen.blit(text, (20, 80))
+
+            if py.key.get_just_pressed()[py.K_ESCAPE]:
+                help = True
     
-        for event in py.event.get():
-            if event.type == py.QUIT:
-                py.quit()
-                sys.exit()
-            if event.type == enemy_spawn_timer:
-                Enemy(enemy_sprites)
-                enemy_timer -= 50
-            if event.type == power_up_spawn:
-                Power_up(power_ups)
+            for event in py.event.get():
+                if event.type == py.QUIT:
+                    py.quit()
+                    sys.exit()
+                if event.type == enemy_spawn_timer:
+                    Enemy(enemy_sprites)
+                    enemy_timer -= 50
+                if event.type == power_up_spawn:
+                    Power_up(power_ups)
     
-        dt = clock.tick() / 1000
+            dt = clock.tick() / 1000
+        else:
+            for event in py.event.get():
+                if event.type == py.QUIT:
+                    py.quit()
+                    sys.exit()
+            keys = py.key.get_just_pressed()
+            help_screen(screen, font, keys)
+            if keys[py.K_SPACE]:
+                help = False
     
         py.display.update()
 
@@ -103,11 +117,11 @@ def game_start(screen):
 def help_screen(screen, font, keys):
     screen.fill('black')
     text = font.render('Move with WASD or arrow keys\n         Fire with Space or Z', True, 'white')
-    screen.blit(text, (width // 2 - 250, height // 2 - 300))
-    text = font.render('Destroy the Microsoft products \n          Before it\'s too late', True, 'white')
-    screen.blit(text, (width // 2 - 260, height // 2 - 100))
+    screen.blit(text, (width // 2 - 300, height // 2 - 300))
+    text = font.render('Destroy the Microslop products \n          Before it\'s too late', True, 'white')
+    screen.blit(text, (width // 2 - 280, height // 2 - 100))
     text = font.render('Press space to return to the title screen', True, 'white')
-    screen.blit(text, (width // 2 - 320, height // 2 + 300))
+    screen.blit(text, (width // 2 - 350, height // 2 + 300))
     if keys[py.K_SPACE]:
         return True
     else:
