@@ -10,6 +10,6 @@ def gen_background(x, SCREEN_WIDTH, SCREEN_HEIGHT):
 def load_img(name):
     return py.image.load(f'./images/{name}.png').convert_alpha()
 
-def gen_player_img():
+def gen_enemy_img():
     return f'enemy{rand.randint(1, 8)}'
 

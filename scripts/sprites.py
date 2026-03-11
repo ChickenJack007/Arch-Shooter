@@ -1,5 +1,5 @@
 import pygame as py
-from scripts.utility import load_img, gen_player_img
+from scripts.utility import load_img, gen_enemy_img
 import random as rand
 
 class Player(py.sprite.Sprite):
@@ -8,13 +8,11 @@ class Player(py.sprite.Sprite):
         self.image = load_img('player')
         self.width, self.height = py.display.get_window_size()
         self.rect = self.image.get_frect(center = (self.width // 2, self.height // 2))
-        self.laser_rect = py.FRect((0, -40), (20, 25))
         self.group = groups
         self.can_shoot = True
         self.time_shot = 0
         self.shoot_timer = 700
         self.has_powerup = False
-        self.powerup_time = None
 
     def update(self, dt):
         keys = py.key.get_pressed()
@@ -88,7 +86,7 @@ class Enemy(py.sprite.Sprite):
         self.group = groups
         self.width, self.height = py.display.get_window_size()
         self.direction = py.Vector2((rand.randint(-300, 300), rand.randint(75, 175)))
-        self.image = load_img(gen_player_img())
+        self.image = load_img(gen_enemy_img())
         self.rect = self.image.get_frect(midbottom = (rand.randint(0, self.width), 60))
 
 
@@ -113,12 +111,12 @@ class Enemy(py.sprite.Sprite):
         
 
 class Power_up(py.sprite.Sprite):
-    def __init__(self, groups, timer=3):
+    def __init__(self, groups, seconds=3):
         super().__init__(groups)
         self.width, self.height = py.display.get_window_size()
         self.image = load_img('power-up')
         self.rect = self.image.get_frect(center = (rand.randint(40, self.width - 40), rand.randint(40, self.height - 40)))
-        self.timer = timer * 1000
+        self.timer = seconds * 1000
         self.spawn_time = py.time.get_ticks()
 
     def update(self):
