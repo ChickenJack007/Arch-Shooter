@@ -79,7 +79,6 @@ class Laser(py.sprite.Sprite):
             self.kill()
 
 
-
 class Enemy(py.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)

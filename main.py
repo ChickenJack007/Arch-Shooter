@@ -17,8 +17,8 @@ while running:
 '''
 Resources
 pygame-ce:    https://pyga.me/docs/
-Referance:    https://pyga.me/docs/
-Referance:    https://www.w3schools.com/python/default.asp
+Reference:    https://pyga.me/docs/
+Reference:    https://www.w3schools.com/python/default.asp
 Player laser: Made in krita: https://krita.org/en/
 Player image: https://github.com/joaofranciscoguarda/arch-pixel-icons?tab=readme-ov-file
 Enemy images: https://icons8.com/icons/set/pixel-windows--style-color
